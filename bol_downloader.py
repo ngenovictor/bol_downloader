@@ -4,11 +4,13 @@ from bs4 import BeautifulSoup
 from playwright.sync_api import Playwright, sync_playwright
 
 
-def main():
-    url = "https://www.bol.com/nl/nl/s/?searchtext=samsung+phone"
+def main(keyword: str = "samsung+phone"):
+    url = f"https://www.bol.com/nl/nl/s/?searchtext={keyword}"
     with sync_playwright() as p:
         browser_type = p.chromium
-        browser = browser_type.launch()
+        browser = browser_type.launch(
+            # headless=False,  # Uncomment this line to see the browser in action
+        )
         context = browser.new_context(
             # add custom user agent to remove Headless notations in the request headers
             extra_http_headers={
@@ -45,4 +47,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main()  # you can pass a keyword to search for a specific product eg main("iphone")
