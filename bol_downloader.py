@@ -10,14 +10,17 @@ def main(keyword: str = "samsung+phone"):
     with sync_playwright() as p:
         browser_type = p.chromium
         browser = browser_type.launch(
-            # headless=False,  # Uncomment this line to see the browser in action
+            headless=False,  # Uncomment this line to see the browser in action
         )
+        user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
         context = browser.new_context(
+            user_agent=user_agent,
+            bypass_csp=True,
             # add custom user agent to remove Headless notations in the request headers
             extra_http_headers={
                 "Sec-Ch-Ua": '"Chromium";v="134", "Not:A-Brand";v="24", "Google Chrome";v="134"',
-                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-            }
+                # "User-Agent": user_agent,
+            },
         )
         page = context.new_page()
         default_timeout = 5 * 60 * 1000  # 5 minutes in ms
