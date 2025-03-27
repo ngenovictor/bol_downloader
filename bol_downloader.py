@@ -20,6 +20,7 @@ def main(keyword: str = "samsung+phone"):
         )
         page = context.new_page()
         default_timeout = 5 * 60 * 1000  # 5 minutes in ms
+        print("Loading page...")
         page.goto(url, timeout=default_timeout)
         page.wait_for_selector("li.product-item--row", timeout=default_timeout)
         page_content = page.content()
