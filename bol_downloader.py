@@ -1,7 +1,8 @@
 import datetime
+import time
 
 from bs4 import BeautifulSoup
-from playwright.sync_api import Playwright, sync_playwright
+from playwright.sync_api import sync_playwright
 
 
 def main(keyword: str = "samsung+phone"):
@@ -21,6 +22,7 @@ def main(keyword: str = "samsung+phone"):
         page = context.new_page()
         default_timeout = 5 * 60 * 1000  # 5 minutes in ms
         print("Loading page...")
+        start_time = time.time()
         page.goto(url, timeout=default_timeout)
         page.wait_for_selector("li.product-item--row", timeout=default_timeout)
         page_content = page.content()
@@ -45,6 +47,8 @@ def main(keyword: str = "samsung+phone"):
                 }
             )
         print(items)
+        print(f"Total products found: {len(items)}")
+        print(f"Time taken: {time.time() - start_time:.2f} seconds")
 
 
 if __name__ == "__main__":
